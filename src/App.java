@@ -1,28 +1,29 @@
-//import java.util.Random;
+import java.util.Random;
 import java.util.Scanner;
 
 public class App {
-    public static void main(String[] args) throws Exception {
-        Scanner scanner = new Scanner(System.in);
+    private static Scanner scanner = new Scanner(System.in);
 
-        for (int i = 0; i < 5; i++) {
-            String guess = scanner.nextLine();
-            System.out.println(checkWord(guess) + "\n");
-        }
-        
-        scanner.close();
-    }
-
-    // read word list
-    public static String answer = "crane";
+    // test word
+    private static String answer = "crane";
 
     // take user input for
-    // - random seed
-    // - guesses
+    public static Random getSeed() {
+        System.out.println("Enter a 5-10 digit seed: ");
+        long seed = scanner.nextLong();
+        Random RNG = new Random(seed);
+        scanner.nextLine();
+
+        return RNG;
+    }
 
     // return guess with correct/incorrect letters
     public static String checkWord(String guess) {
         String result = "";
+
+        if (guess.length() != 5) {
+            throw new IllegalArgumentException("Word must be 5 letters");
+        }
 
         for (int i = 0; i < 5; i++) {
             if (guess.toCharArray()[i] == answer.toCharArray()[i]) {
@@ -34,5 +35,17 @@ public class App {
             }
         }
         return result;
+    }
+
+    public static void main(String[] args) throws Exception {
+        getSeed();
+
+        System.out.println("\nEnter a 5-letter word to begin");
+        for (int i = 0; i < 5; i++) {
+            String guess = scanner.nextLine();
+            System.out.println(checkWord(guess) + "\n");
+        }
+        
+        scanner.close();
     }
 }
